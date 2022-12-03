@@ -6,7 +6,7 @@ from typing import Any, Awaitable, Callable
 from aio_pika import connect
 from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
 
-from .models import ImageSortedMessage, MessageParsingException
+from .models import ImageSortedMessage, ImageSortedParsingError
 
 SortedMessageHandler = Callable[[ImageSortedMessage], Awaitable[None]]
 
@@ -38,6 +38,6 @@ class ImageSortedConsumer:
             # FIXME: Invalid json
             model = ImageSortedMessage.from_json(json.loads(message.body.decode("utf-8")))
             await self.message_handler(model)
-        except MessageParsingException:
+        except ImageSortedParsingError:
             print(f"Could not parse message: {message}")
         

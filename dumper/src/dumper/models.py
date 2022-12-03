@@ -4,7 +4,7 @@ from typing import Any
 from aio_pika.abc import AbstractIncomingMessage
 
 
-class MessageParsingException(Exception):
+class ImageSortedParsingError(Exception):
     pass
 
 
@@ -20,7 +20,7 @@ class ImageSortedMessage:
             request_id: str = deserialized_message["request_id"]
             mean_color: str = deserialized_message["sort_key"]
         except KeyError as exc:
-            raise MessageParsingException("Malformed message received") from exc
+            raise ImageSortedParsingError("Malformed message received") from exc
         return ImageSortedMessage(request_id, mean_color)
 
     def __post_init__(self) -> None:
@@ -28,7 +28,7 @@ class ImageSortedMessage:
             self.validate_request_id()
             self.validate_mean_color()
         except AssertionError as exception:
-            raise MessageParsingException("Could not validate message") from exception
+            raise ImageSortedParsingError("Could not validate message") from exception
 
     def validate_request_id(self) -> None:
         assert isinstance(self.request_id, str)
