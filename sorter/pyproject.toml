@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "imagesort-dumper"
+name = "imagesort-sorter"
 version = "0.1.0"
-description = "Dump image according to its sorting."
+description = "Get sort key for image and pass request to dumper for image processing."
 authors = ["Marek Beno <marek.beno.private@gmail.com>"]
 readme = "README.md"
 packages = [
-    {include = "dumper", from="src"}
+    {include = "sorter", from="src"}
 ]
 
 [tool.poetry.dependencies]
@@ -23,7 +23,7 @@ black = "22.10.0"
 isort = "^5.9.1"
 
 [tool.poetry.scripts]
-dumper = "dumper.__main__:main"
+sorter = "sorter.__main__:main"
 
 [tool.poe.tasks]
 _black = "black ."

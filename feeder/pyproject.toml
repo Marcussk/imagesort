@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "imagesort-dumper"
+name = "imagesort-feeder"
 version = "0.1.0"
-description = "Dump image according to its sorting."
+description = "Obtain input files from configured folder and feed into sorter."
 authors = ["Marek Beno <marek.beno.private@gmail.com>"]
 readme = "README.md"
 packages = [
-    {include = "dumper", from="src"}
+    {include = "feeder", from="src"}
 ]
 
 [tool.poetry.dependencies]
@@ -23,7 +23,7 @@ black = "22.10.0"
 isort = "^5.9.1"
 
 [tool.poetry.scripts]
-dumper = "dumper.__main__:main"
+feeder = "feeder.__main__:main"
 
 [tool.poe.tasks]
 _black = "black ."
