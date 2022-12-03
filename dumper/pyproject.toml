@@ -11,6 +11,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11"
 aio-pika = "^8.2.5"
+webcolors = "^1.12"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.982"
