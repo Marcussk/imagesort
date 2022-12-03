@@ -2,8 +2,10 @@
 from pathlib import Path
 from typing import Any
 
-from .models import ImageSortedMessage
+from webcolors import hex_to_name
+
 from .consumer import ImageSortedConsumer
+from .models import ImageSortedMessage
 
 
 class Dumper:
@@ -19,4 +21,5 @@ class Dumper:
 
     async def process(self, message: ImageSortedMessage) -> None:
         print(message)
-        print(self.dump_folder / message.sort_key)
+        color_name = hex_to_name(message.mean_color)
+        print(self.dump_folder / color_name)
