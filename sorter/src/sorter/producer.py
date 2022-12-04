@@ -2,7 +2,7 @@ import json
 from dataclasses import asdict
 from typing import Any
 
-from aio_pika import Message, connect
+from aio_pika import Message, connect_robust
 from aio_pika.abc import AbstractConnection
 
 from .models import ImageSortedMessage
@@ -16,7 +16,8 @@ class ImageSortedProducer:
         self.connection: AbstractConnection | None = None
 
     async def start(self) -> None:
-        self.connection = await connect(self.connection_string)
+        print("Connecting to: ", self.connection_string)
+        self.connection = await connect_robust(self.connection_string, timeout=60)
 
     async def send(self, message: ImageSortedMessage) -> None:
         assert self.connection

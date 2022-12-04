@@ -11,3 +11,10 @@
     - minikube kubectl -- get all -l app.kubernetes.io/part-of=rabbitmq
 - Create minikube loadbalancer tunnel https://minikube.sigs.k8s.io/docs/handbook/accessing/
     - minikube tunnel
+
+Connection not working: https://stackoverflow.com/questions/40563469/connecting-to-rabbitmq-docker-container-from-service-in-another-container
+
+Running local image in kube deployment: https://medium.com/swlh/how-to-run-locally-built-docker-images-in-kubernetes-b28fbc32cc1d
+
+
+minikube image load imagesort-dumper

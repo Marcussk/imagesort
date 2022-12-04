@@ -20,6 +20,6 @@ class Dumper:
         await self.consumer.consume()
 
     async def process(self, message: ImageSortedMessage) -> None:
-        print(message)
+        print(f"Saving {message.request_id}")
         color_name = hex_to_name(message.mean_color)
         print(self.dump_folder / color_name)

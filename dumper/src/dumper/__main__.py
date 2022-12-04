@@ -3,14 +3,21 @@ import asyncio
 from .config import config
 from .dumper import Dumper
 
-async def main() -> None:
-    dumper = Dumper(config)
-    await dumper.start()
-    await dumper.run()
+async def run() -> None:
+    try:
+        print("Initializing dumper")
+        dumper = Dumper(config)
+        print("Starting dumper")
+        await dumper.start()
+        print("Running dumper")
+        await dumper.run()
+    except KeyboardInterrupt:
+        pass
+
+def main() -> None:
+    print("Running application")
+    asyncio.run(run())
 
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyError:
-        pass
+    main()

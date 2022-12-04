@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imagesort-dumper
+  labels:
+    name: imagesort-dumper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: imagesort-dumper
+  template:
+    metadata:
+      labels:
+        name: imagesort-dumper
+    spec:
+      containers:
+        - name: app
+          image: imagesort-dumper
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"

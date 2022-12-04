@@ -3,7 +3,7 @@ import json
 from asyncio import Future
 from typing import Any, Awaitable, Callable
 
-from aio_pika import connect
+from aio_pika import connect_robust
 from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
 
 from .models import ImageSortedMessage, ImageSortedParsingError
@@ -16,11 +16,11 @@ class ImageSortedConsumer:
         self.queue_name: str = config["queue_name"]
         self.message_handler: SortedMessageHandler = message_handler
         self.connection_string: str = f"amqp://{config['username']}:{config['password']}@{config['hostname']}/"
-        print(self.connection_string)
         self.connection: AbstractConnection | None = None
 
     async def start(self) -> None:
-        self.connection = await connect(self.connection_string)
+        print("Connecting to: ", self.connection_string)
+        self.connection = await connect_robust(self.connection_string, timeout=60)
 
     async def consume(self) -> None:
         assert self.connection

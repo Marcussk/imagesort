@@ -10,7 +10,15 @@ class Sorter:
         self.consumer = ImageInputConsumer(config["consumer"], self.process_image)
         self.producer = ImageSortedProducer(config["producer"])
 
+    async def start(self) -> None:
+        await self.consumer.start()
+        await self.producer.start()
+
+    async def run(self) -> None:
+        await self.consumer.consume()
+
     async def process_image(self, input_message: ImageInputMessage) -> None:
+        print(f"Processing {input_message.request_id}")
         mean_color: str = self.get_mean_color(input_message)
         sorted_message = ImageSortedMessage(input_message.request_id, mean_color)
         await self.producer.send(sorted_message)
