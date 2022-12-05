@@ -20,3 +20,5 @@ Running local image in kube deployment: https://medium.com/swlh/how-to-run-local
 minikube image load imagesort-dumper
 
 Uploading file to container: docker cp red.png 18f3612b15ab:/usr/src/app/images/red.png
+
+Adding default rabbit users https://stackoverflow.com/questions/30747469/how-to-add-initial-users-when-starting-a-rabbitmq-docker-container
