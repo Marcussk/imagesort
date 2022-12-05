@@ -17,9 +17,10 @@ class ImageSortedProducer:
 
     async def start(self) -> None:
         print("Connecting to: ", self.connection_string)
-        self.connection = await connect_robust(self.connection_string, timeout=60)
+        #self.connection = await connect_robust(self.connection_string, timeout=60)
 
     async def send(self, message: ImageSortedMessage) -> None:
+        self.connection = await connect_robust(self.connection_string, timeout=60)
         assert self.connection
         async with self.connection:
             channel = await self.connection.channel()

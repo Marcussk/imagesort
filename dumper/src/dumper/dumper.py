@@ -23,10 +23,15 @@ class Dumper:
         print(f"Saving {message.request_id}")
         print(message)
         color_name = self.get_color_name(message.mean_color)
-        self.dump_file(message.file_path, self.dump_folder / color_name)
+        self.dump_file(message.file_path, color_name)
         print(f"Finished: {message.request_id}")
 
     def get_color_name(self, hex_color: str) -> str:
+        """
+        Gets color name for input hex_color.
+
+        If color name does not exists hex_color is used. 
+        """
         try:
             color_name = hex_to_name(hex_color)
         except ValueError as exception:
@@ -34,9 +39,19 @@ class Dumper:
             color_name = hex_color.lstrip("#")
         return color_name
 
-    def dump_file(self, original_file_path: str, target_folder: Path) -> None:
+    def dump_file(self, original_file_path: str, color_name: str) -> None:
+        """
+            Moves file into correct folder according to its sorting.
+
+            If file exists, it is not moved.
+        """
+        target_folder = self.dump_folder / color_name
         target_folder.mkdir(parents=True, exist_ok=True)
-        image_file_path = self.dump_folder / original_file_path
+
         target_file_path = target_folder / original_file_path
-        print(str(image_file_path), "->", target_file_path)
-        image_file_path.rename(target_file_path)
+        image_file_path = self.dump_folder / original_file_path
+
+        try:
+            image_file_path.rename(target_file_path)
+        except FileExistsError:
+            print("File already exists can't replace.")
