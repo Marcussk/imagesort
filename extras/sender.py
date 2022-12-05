@@ -1,18 +1,21 @@
+import argparse
 import asyncio
 import json
-from datetime import datetime
+import sys
+from typing import Any
 from uuid import uuid4
+import os
 
 from aio_pika import Message, connect
 
 cfg = {
-    "username": "guest",
-    "password": "guest",
-    "hostname": "localhost",
+    "username": os.environ["RABBITMQ_USERNAME"],
+    "password": os.environ["RABBITMQ_PASSWORD"],
+    "hostname": os.environ["RABBITMQ_HOSTNAME"],
     "queue_name": "imagesort.input",
 }
 
-async def main(config) -> None:
+async def main(config: dict[str, Any], file_name: str) -> None:
     connection = await connect(f"amqp://{config['username']}:{config['password']}@{config['hostname']}/")
     async with connection:
         channel = await connection.channel()
@@ -20,7 +23,7 @@ async def main(config) -> None:
         message_body: bytes = (json.dumps(
                 {
                     "request_id": str(uuid4()),
-                    "file_path": "white.png"
+                    "file_path": file_name
                 }
             )).encode("utf-8")
         await channel.default_exchange.publish(
@@ -31,4 +34,9 @@ async def main(config) -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main(cfg))
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument("-f", dest="file_name", help="Path to image for sorting.")
+    args = argument_parser.parse_args()
+    if not args.file_name:
+        sys.exit("No file_path argument specified. See --help for usage.")
+    asyncio.run(main(cfg, args.file_name))
