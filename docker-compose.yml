@@ -21,7 +21,7 @@ services:
     depends_on:
       - rabbitmq
     volumes:
-    - "C:/imagesort/images:/usr/src/app/images"
+    - "./images:/usr/src/app/images"
 
   dumper:
     build: dumper
@@ -33,7 +33,7 @@ services:
       - rabbitmq
       - sorter
     volumes:
-    - "C:/imagesort/images:/usr/src/app/images"
+    - "./images:/usr/src/app/images"
 
 networks:
   network: {}
