@@ -43,7 +43,8 @@ max-line-length=119
 disable = """,
     missing-function-docstring,
     missing-class-docstring,
-    missing-module-docstring
+    missing-module-docstring,
+    duplicate-code
     """
 
 [tool.mypy]

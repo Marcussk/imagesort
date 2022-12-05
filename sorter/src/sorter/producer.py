@@ -7,7 +7,6 @@ from aio_pika.abc import AbstractConnection
 
 from .models import ImageSortedMessage
 
-from time import sleep
 
 class ImageSortedProducer:
     def __init__(self, config: dict[str, Any]) -> None:
@@ -22,7 +21,6 @@ class ImageSortedProducer:
 
     async def send(self, message: ImageSortedMessage) -> None:
         assert self.connection
-        # TODO: connection persistent
         async with self.connection:
             channel = await self.connection.channel()
             queue = await channel.declare_queue(self.queue_name)

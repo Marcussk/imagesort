@@ -8,6 +8,8 @@ from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
 from .models import ImageInputMessage, ImageInputParsingError
 
 InputMessageHandler = Callable[[ImageInputMessage], Awaitable[None]]
+
+
 class ImageInputConsumer:
     def __init__(self, config: dict[str, Any], message_handler: InputMessageHandler) -> None:
         self.queue_name: str = config["queue_name"]
@@ -33,9 +35,7 @@ class ImageInputConsumer:
         Parses incoming message into model and passes it to handler for processing.
         """
         try:
-            # FIXME: Invalid json
             model = ImageInputMessage.from_json(json.loads(message.body.decode("utf-8")))
             await self.message_handler(model)
         except ImageInputParsingError:
             print(f"Could not parse message: {message}")
-        
