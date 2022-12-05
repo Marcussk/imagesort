@@ -1,26 +1,26 @@
 # imagesort
 
-# Installation
+Application for sorting images on file system according to their mean color.
 
-- Install minikube https://minikube.sigs.k8s.io/docs/start/
-- Install rabbitmq cluster https://medium.com/nerd-for-tech/deploying-rabbitmq-on-kubernetes-using-rabbitmq-cluster-operator-ef99f7a4e417 
-    - minikube kubectl -- apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
-    - minikube kubectl -- get all -o wide -n rabbitmq-system
-    - minikube kubectl -- apply -f reqs/rabbitmq_cluster.yaml
-    - minikube kubectl -- describe RabbitmqCluster production-rabbitmqcluster
-    - minikube kubectl -- get all -l app.kubernetes.io/part-of=rabbitmq
-- Create minikube loadbalancer tunnel https://minikube.sigs.k8s.io/docs/handbook/accessing/
-    - minikube tunnel
+- `sorter` calculates mean color for sorting
+- `dumper` moves images to correct folder
+- `extras\imagesort_sender.py` sends sorting request
 
-Connection not working: https://stackoverflow.com/questions/40563469/connecting-to-rabbitmq-docker-container-from-service-in-another-container
+## Usage
 
-Running local image in kube deployment: https://medium.com/swlh/how-to-run-locally-built-docker-images-in-kubernetes-b28fbc32cc1d
+This project requires Docker and uses docker-compose to run individual components.
 
+- `docker compose up` to start components
+- move images to `images` folder, or alternatively update `IMAGESORT_DUMPER_FOLDER` in compose for using any folder
+- send request for sorting to `imagesort.input` by using `imagesort_sender`.
+- review sorted image
 
-minikube image load imagesort-dumper
+## Local development
 
-Uploading file to container: docker cp red.png 18f3612b15ab:/usr/src/app/images/red.png
+For local development python3.11 and poetry is needed.
+Individual components expect these envs to work:
 
-Adding default rabbit users https://stackoverflow.com/questions/30747469/how-to-add-initial-users-when-starting-a-rabbitmq-docker-container
-
-examples https://fenga.medium.com/an-asynchronous-rabbitmq-client-in-python-274a310858a1
+- IMAGESORT_DUMPER_FOLDER
+- RABBITMQ_HOSTNAME
+- RABBITMQ_USERNAME
+- RABBITMQ_PASSWORD
