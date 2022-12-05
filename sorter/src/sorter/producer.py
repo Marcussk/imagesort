@@ -7,6 +7,7 @@ from aio_pika.abc import AbstractConnection
 
 from .models import ImageSortedMessage
 
+from time import sleep
 
 class ImageSortedProducer:
     def __init__(self, config: dict[str, Any]) -> None:

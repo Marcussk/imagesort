@@ -15,7 +15,7 @@ class ImageSortedConsumer:
     def __init__(self, config: dict[str, Any], message_handler: SortedMessageHandler) -> None:
         self.queue_name: str = config["queue_name"]
         self.message_handler: SortedMessageHandler = message_handler
-        self.connection_string: str = f"amqp://{config['username']}:{config['password']}@{config['hostname']}/"
+        self.connection_string: str = f"amqp://{config['username']}:{config['password']}@{config['hostname']}"
         self.connection: AbstractConnection | None = None
 
     async def start(self) -> None:

@@ -17,4 +17,6 @@ RUN pip install -r requirements.txt
 COPY --from=builder /build/dist dist
 RUN pip install --no-deps dist/*.whl
 
+WORKDIR /usr/src/app
+
 CMD ["python", "-m", "dumper"]

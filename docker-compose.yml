@@ -1,4 +1,8 @@
 version: '3'
+
+volumes:
+  image-data:
+
 services:
   rabbitmq:
     image: 'rabbitmq:3.6-management-alpine'
@@ -7,6 +11,29 @@ services:
       - '15672:15672'
     networks:
       - network
+
+  sorter:
+    build: sorter
+    environment:
+      RABBITMQ_HOSTNAME: 'rabbitmq'
+    networks:
+      - network
+    depends_on:
+      - rabbitmq
+    volumes:
+    - "C:/imagesort/images:/usr/src/app/images"
+
+  dumper:
+    build: dumper
+    environment:
+      RABBITMQ_HOSTNAME: 'rabbitmq'
+    networks:
+      - network
+    depends_on:
+      - rabbitmq
+      - sorter
+    volumes:
+    - "C:/imagesort/images:/usr/src/app/images"
 
 networks:
   network: {}

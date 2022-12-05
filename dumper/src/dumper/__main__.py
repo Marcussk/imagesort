@@ -3,10 +3,14 @@ import asyncio
 from .config import config
 from .dumper import Dumper
 
+import time
+
 async def run() -> None:
     try:
         print("Initializing dumper")
         dumper = Dumper(config)
+        print("Waiting on dependancies")
+        time.sleep(15)
         print("Starting dumper")
         await dumper.start()
         print("Running dumper")
