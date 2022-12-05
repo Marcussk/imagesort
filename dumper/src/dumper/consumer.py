@@ -1,4 +1,3 @@
-
 import json
 from asyncio import Future
 from typing import Any, Awaitable, Callable
@@ -37,10 +36,8 @@ class ImageSortedConsumer:
         try:
             message_json = json.loads(message.body.decode("utf-8"))
             print(message_json)
-            # FIXME: Invalid json
             model = ImageSortedMessage.from_json(message_json)
             await self.message_handler(model)
         except ImageSortedParsingError as exception:
             print(exception)
             print(f"Could not parse message: {message} {message.body.decode('utf-8')}")
-        

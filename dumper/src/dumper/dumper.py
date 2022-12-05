@@ -1,4 +1,3 @@
-
 from pathlib import Path
 from typing import Any
 
@@ -9,14 +8,22 @@ from .models import ImageSortedMessage
 
 
 class Dumper:
+    """
+    Consumes incoming `ImageSortedMessage`s and `process`es them by moving images into correct folder.
+    Folder is assigned by converting mean color obtained from sorter.
+    """
+
     def __init__(self, config: dict[str, Any]) -> None:
+        self.config: dict[str, Any] = config
         self.dump_folder = Path(config["dump_folder"])
-        self.consumer = ImageSortedConsumer(config["consumer"], self.process)
+        self.consumer: ImageSortedConsumer | None = None
 
     async def start(self) -> None:
+        self.consumer = ImageSortedConsumer(self.config["consumer"], self.process)
         await self.consumer.start()
 
     async def run(self) -> None:
+        assert self.consumer
         await self.consumer.consume()
 
     async def process(self, message: ImageSortedMessage) -> None:
@@ -30,7 +37,7 @@ class Dumper:
         """
         Gets color name for input hex_color.
 
-        If color name does not exists hex_color is used. 
+        If color name does not exists hex_color is used.
         """
         try:
             color_name = hex_to_name(hex_color)
@@ -41,9 +48,9 @@ class Dumper:
 
     def dump_file(self, original_file_path: str, color_name: str) -> None:
         """
-            Moves file into correct folder according to its sorting.
+        Moves file into correct folder according to its sorting.
 
-            If file exists, it is not moved.
+        If file exists, it is not moved.
         """
         target_folder = self.dump_folder / color_name
         target_folder.mkdir(parents=True, exist_ok=True)

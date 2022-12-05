@@ -15,7 +15,6 @@ class ImageSortedMessage:
     @classmethod
     def from_json(cls, deserialized_message: dict[str, Any]) -> "ImageSortedMessage":
         try:
-            # TODO: test correct parsing, raises exceptions?
             request_id: str = deserialized_message["request_id"]
             mean_color: str = deserialized_message["mean_color"]
             file_path: str = deserialized_message["file_path"]

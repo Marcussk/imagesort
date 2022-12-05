@@ -1,9 +1,9 @@
 import asyncio
+import time
 
 from .config import config
 from .dumper import Dumper
 
-import time
 
 async def run() -> None:
     try:
@@ -17,6 +17,7 @@ async def run() -> None:
         await dumper.run()
     except KeyboardInterrupt:
         pass
+
 
 def main() -> None:
     print("Running application")
