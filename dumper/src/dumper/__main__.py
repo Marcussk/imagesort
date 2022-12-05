@@ -10,7 +10,7 @@ async def run() -> None:
         print("Initializing dumper")
         dumper = Dumper(config)
         print("Waiting on dependancies")
-        time.sleep(15)
+        time.sleep(1)
         print("Starting dumper")
         await dumper.start()
         print("Running dumper")

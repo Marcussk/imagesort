@@ -35,9 +35,12 @@ class ImageSortedConsumer:
         Parses incoming message into model and passes it to handler for processing.
         """
         try:
+            message_json = json.loads(message.body.decode("utf-8"))
+            print(message_json)
             # FIXME: Invalid json
-            model = ImageSortedMessage.from_json(json.loads(message.body.decode("utf-8")))
+            model = ImageSortedMessage.from_json(message_json)
             await self.message_handler(model)
-        except ImageSortedParsingError:
-            print(f"Could not parse message: {message}")
+        except ImageSortedParsingError as exception:
+            print(exception)
+            print(f"Could not parse message: {message} {message.body.decode('utf-8')}")
         

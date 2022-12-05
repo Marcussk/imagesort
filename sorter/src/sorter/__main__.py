@@ -10,7 +10,7 @@ async def run() -> None:
         print("Initializing sorter")
         sorter = Sorter(config)
         print("Waiting on dependancies")
-        time.sleep(15)
+        time.sleep(1)
         print("Starting sorter")
         await sorter.start()
         print("Running sorter")

@@ -25,3 +25,4 @@ class ImageInputMessage:
 class ImageSortedMessage:
     request_id: str
     mean_color: str
+    file_path: str

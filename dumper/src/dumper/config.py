@@ -9,6 +9,6 @@ config = {
         #"hostname": "localhost",
         "queue_name": "imagesort.sorted",
     },
-    # "dump_folder": os.environ["IMAGESORT_DUMPER_FOLDER"],
-    "dump_folder": "dump",
+    "dump_folder": os.environ["IMAGESORT_DUMPER_FOLDER"],
+    # "dump_folder": "dump",
 }

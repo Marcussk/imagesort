@@ -21,5 +21,14 @@ class Dumper:
 
     async def process(self, message: ImageSortedMessage) -> None:
         print(f"Saving {message.request_id}")
+        print(message)
         color_name = hex_to_name(message.mean_color)
-        print(self.dump_folder / color_name)
+        self.dump_file(message.file_path, self.dump_folder / color_name)
+        print(f"Finished: {message.request_id}")
+
+    def dump_file(self, original_file_path: str, target_folder: Path):
+        target_folder.mkdir(parents=True, exist_ok=True)
+        image_file_path = self.dump_folder / original_file_path
+        target_file_path = target_folder / original_file_path
+        print(str(image_file_path), "->", target_file_path)
+        image_file_path.rename(target_file_path)
