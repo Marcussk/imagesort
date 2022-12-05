@@ -22,11 +22,19 @@ class Dumper:
     async def process(self, message: ImageSortedMessage) -> None:
         print(f"Saving {message.request_id}")
         print(message)
-        color_name = hex_to_name(message.mean_color)
+        color_name = self.get_color_name(message.mean_color)
         self.dump_file(message.file_path, self.dump_folder / color_name)
         print(f"Finished: {message.request_id}")
 
-    def dump_file(self, original_file_path: str, target_folder: Path):
+    def get_color_name(self, hex_color: str) -> str:
+        try:
+            color_name = hex_to_name(hex_color)
+        except ValueError as exception:
+            print(f"Cannot get name for {hex_color}: {exception}")
+            color_name = hex_color.lstrip("#")
+        return color_name
+
+    def dump_file(self, original_file_path: str, target_folder: Path) -> None:
         target_folder.mkdir(parents=True, exist_ok=True)
         image_file_path = self.dump_folder / original_file_path
         target_file_path = target_folder / original_file_path
