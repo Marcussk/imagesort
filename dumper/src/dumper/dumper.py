@@ -17,6 +17,7 @@ class Dumper:
     def __init__(self, config: dict[str, Any]) -> None:
         self.config: dict[str, Any] = config
         self.dump_folder = Path(config["dump_folder"])
+        self.dump_folder.mkdir(parents=True, exist_ok=True)
         self.consumer: ImageSortedConsumer | None = None
         logging.basicConfig(level=config["log_level"])
         self.logger = logging.getLogger()

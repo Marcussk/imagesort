@@ -16,6 +16,7 @@ class Sorter:
         self.consumer: ImageInputConsumer | None = None
         self.producer: ImageSortedProducer | None = None
         self.dump_folder = Path(config["dump_folder"])
+        self.dump_folder.mkdir(parents=True, exist_ok=True)
         logging.basicConfig(level=config["log_level"])
         self.logger = logging.getLogger()
 
