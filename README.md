@@ -2,9 +2,10 @@
 
 Application for sorting images on file system according to their mean color.
 
-- `feeder` periodically accesses project folder and propagates files to system
-- `sorter` calculates mean color for sorting
-- `dumper` moves images to correct folder
+- `feeder` module periodically accesses project folder and propagates files to system
+- `sorter` module calculates mean color for sorting
+- `dumper` module moves images to correct folder
+- `images` folder contains sample images for testing
 
 ## Usage
 
