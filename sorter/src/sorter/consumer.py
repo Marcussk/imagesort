@@ -34,6 +34,10 @@ class ImageInputConsumer:
             await queue.consume(self.on_message, no_ack=True)
             await Future()
 
+    async def stop(self) -> None:
+        if self.connection:
+            await self.connection.close()
+
     async def on_message(self, message: AbstractIncomingMessage) -> None:
         """
         Parses incoming message into model and passes it to handler for processing.

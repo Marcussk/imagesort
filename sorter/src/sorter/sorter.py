@@ -33,6 +33,12 @@ class Sorter:
         assert self.consumer
         await self.consumer.consume()
 
+    async def stop(self) -> None:
+        if self.producer:
+            await self.producer.stop()
+        if self.consumer:
+            await self.consumer.stop()
+
     async def process_image(self, input_message: ImageInputMessage) -> None:
         assert self.producer
         self.logger.info("Processing %s", input_message.request_id)

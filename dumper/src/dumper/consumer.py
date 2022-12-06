@@ -25,6 +25,10 @@ class ImageSortedConsumer:
         self.logger.info("Starting ImageSortedConsumer")
         self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
 
+    async def stop(self) -> None:
+        if self.connection:
+            await self.connection.close()
+
     async def consume(self) -> None:
         self.logger.info("Consuming ImageSortedMessage")
         assert self.connection

@@ -33,6 +33,10 @@ class Dumper:
         assert self.consumer
         await self.consumer.consume()
 
+    async def stop(self) -> None:
+        if self.consumer:
+            await self.consumer.stop()
+
     async def process(self, message: ImageSortedMessage) -> None:
         self.logger.info("Dumper processing %s", message.request_id)
         self.logger.debug("Message received: %s", message)

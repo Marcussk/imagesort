@@ -22,6 +22,10 @@ class Feeder:
         self.producer = ImageInputProducer(self.config["producer"])
         await self.producer.start()
 
+    async def stop(self) -> None:
+        if self.producer:
+            await self.producer.stop()
+
     async def run(self) -> None:
         self.logger.info("Running Feeder")
         while True:

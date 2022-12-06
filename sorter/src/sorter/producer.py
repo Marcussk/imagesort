@@ -20,10 +20,14 @@ class ImageSortedProducer:
 
     async def start(self) -> None:
         self.logger.info("Starting ImageSortedProducer")
+        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
+       
+    async def stop(self) -> None:
+        if self.connection:
+            await self.connection.close()
 
     async def send(self, message: ImageSortedMessage) -> None:
         self.logger.debug("Sending message: %s", message.request_id)
-        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
         assert self.connection
         async with self.connection:
             channel = await self.connection.channel()
