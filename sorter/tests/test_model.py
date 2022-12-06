@@ -9,6 +9,10 @@ class TestImageInput:
     def test_init(self) -> None:
         model = ImageInputMessage(request_id="XXX", file_path="white.png")
         assert model == ImageInputMessage.from_dict(asdict(model))
+        assert asdict(model) == {
+            "request_id": "XXX",
+            "file_path": "white.png"
+        }
 
     def test_missing_fields(self) -> None:
         with pytest.raises(ImageInputParsingError):

@@ -47,7 +47,7 @@ class Dumper:
         If color name does not exists hex_color is used.
         """
         try:
-            color_name = hex_to_name(hex_color)
+            color_name: str = hex_to_name(hex_color)
         except ValueError:
             self.logger.exception("Cannot get name for %s", hex_color)
             color_name = hex_color.lstrip("#")

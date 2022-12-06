@@ -40,7 +40,7 @@ class ImageSortedConsumer:
         """
         try:
             message_json = json.loads(message.body.decode("utf-8"))
-            model = ImageSortedMessage.from_json(message_json)
+            model = ImageSortedMessage.from_dict(message_json)
             self.logger.debug("Parsed ImageSortedMessage %s", model.request_id)
             await self.message_handler(model)
         except ImageSortedParsingError:
