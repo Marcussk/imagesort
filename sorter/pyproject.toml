@@ -13,6 +13,7 @@ python = "^3.11"
 aio-pika = "^8.2.5"
 opencv-python = "^4.6.0.66"
 webcolors = "^1.12"
+pytest-asyncio = "^0.20.2"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.982"
@@ -44,7 +45,8 @@ disable = """,
     missing-function-docstring,
     missing-class-docstring,
     missing-module-docstring,
-    duplicate-code
+    duplicate-code,
+    too-few-public-methods
     """
 
 [tool.mypy]

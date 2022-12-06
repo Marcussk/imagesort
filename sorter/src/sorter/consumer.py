@@ -12,6 +12,7 @@ InputMessageHandler = Callable[[ImageInputMessage], Awaitable[None]]
 
 RABBITMQ_CONNECTION_TIMEOUT = 60
 
+
 class ImageInputConsumer:
     def __init__(self, config: dict[str, Any], message_handler: InputMessageHandler) -> None:
         self.queue_name: str = config["queue_name"]
@@ -39,7 +40,7 @@ class ImageInputConsumer:
         """
         self.logger.debug("Processing message")
         try:
-            model = ImageInputMessage.from_json(json.loads(message.body.decode("utf-8")))
+            model = ImageInputMessage.from_dict(json.loads(message.body.decode("utf-8")))
             self.logger.debug("Parsed message: %s", model.request_id)
             await self.message_handler(model)
         except ImageInputParsingError:

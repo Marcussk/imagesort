@@ -12,7 +12,7 @@ class ImageInputMessage:
     file_path: str
 
     @classmethod
-    def from_json(cls, deserialized_message: dict[str, Any]) -> "ImageInputMessage":
+    def from_dict(cls, deserialized_message: dict[str, Any]) -> "ImageInputMessage":
         try:
             request_id: str = deserialized_message["request_id"]
             file_path: str = deserialized_message["file_path"]
@@ -20,6 +20,18 @@ class ImageInputMessage:
             raise ImageInputParsingError("Malformed message received") from exc
         return ImageInputMessage(request_id, file_path)
 
+    def __post_init__(self) -> None:
+        try:
+            self.validate_request_id()
+            self.validate_file_path()
+        except AssertionError as exception:
+            raise ImageInputParsingError("Could not validate message") from exception
+
+    def validate_request_id(self) -> None:
+        assert isinstance(self.request_id, str)
+
+    def validate_file_path(self) -> None:
+        assert isinstance(self.file_path, str)
 
 @dataclass
 class ImageSortedMessage:

@@ -16,5 +16,5 @@ config = {
         "queue_name": "imagesort.sorted",
     },
     "dump_folder": parent_directory / "images",
-    "log_level": "DEBUG"
+    "log_level": "DEBUG",
 }

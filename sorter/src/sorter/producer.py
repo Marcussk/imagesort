@@ -10,6 +10,7 @@ from .models import ImageSortedMessage
 
 RABBITMQ_CONNECTION_TIMEOUT = 60
 
+
 class ImageSortedProducer:
     def __init__(self, config: dict[str, Any]) -> None:
         self.queue_name: str = config["queue_name"]

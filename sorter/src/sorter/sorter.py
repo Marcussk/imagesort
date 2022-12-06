@@ -39,8 +39,8 @@ class Sorter:
 
         image_path = self.dump_folder / input_message.file_path
         if not image_path.exists():
-            self.logger.error("Cannot load image at: %s from request %s, file does not exist", image_path, input_message.request_id)
-            return 
+            self.logger.error("Request %s, file %s does not exist", input_message.request_id, image_path)
+            return None
         mean_color: str = self.get_mean_color(str(image_path))
         self.logger.info("Request %s mean color: %s", input_message.request_id, mean_color)
 
