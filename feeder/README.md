@@ -1,6 +1,6 @@
 # Feeder
 
-Module that periodically checks input folder given by env `IMAGESORT_DUMPER_FOLDER` and feeds any files in that folder to sorter for processing.
+Module that periodically checks input folder given by env `IMAGESORT_FOLDER` and feeds any files in that folder to sorter for processing.
 
 ## Development
 
