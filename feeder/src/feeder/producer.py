@@ -21,7 +21,7 @@ class ImageInputProducer:
     async def start(self) -> None:
         self.logger.info("Starting ImageInputProducer")
         self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
-        
+
     async def stop(self) -> None:
         if self.connection:
             await self.connection.close()

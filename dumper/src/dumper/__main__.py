@@ -14,6 +14,8 @@ async def run() -> None:
         await dumper.run()
     except KeyboardInterrupt:
         pass
+    finally:
+        await dumper.stop()
 
 
 def main() -> None:

@@ -14,6 +14,8 @@ async def run() -> None:
         await sorter.run()
     except KeyboardInterrupt:
         pass
+    finally:
+        await sorter.stop()
 
 
 def main() -> None:
