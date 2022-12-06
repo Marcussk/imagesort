@@ -17,6 +17,7 @@ async def run() -> None:
     finally:
         await feeder.stop()
 
+
 def main() -> None:
     asyncio.run(run())
 
