@@ -1,18 +1,13 @@
 import os
 
 config = {
-    "consumer": {
-        "username": "guest",
-        "password": os.environ["RABBITMQ_IMAGESORT_PASSWORD"],
-        #"hostname": os.environ["RABBITMQ_PROD_HOSTNAME"],
-        "hostname": "localhost",
-        "queue_name": "imagesort.input",
-    },
     "producer": {
         "username": "guest",
-        "password": os.environ["RABBITMQ_IMAGESORT_PASSWORD"],
-        #"hostname": os.environ["RABBITMQ_PROD_HOSTNAME"],
-        "hostname": "localhost",
-        "queue_name": "imagesort.sorted",
+        "password": "guest",
+        "hostname": os.environ["RABBITMQ_HOSTNAME"],
+        "queue_name": "imagesort.input",
     },
+    "dump_folder": os.environ["IMAGESORT_DUMPER_FOLDER"],
+    "log_level": os.environ.get("IMAGESORT_SORTER_LOG_LEVEL", "INFO"),
+    "backoff_time": os.environ.get("IMAGESORT_FEEDER_BACKOFF", 10)
 }
