@@ -33,6 +33,7 @@ class ImageInputMessage:
     def validate_file_path(self) -> None:
         assert isinstance(self.file_path, str)
 
+
 @dataclass
 class ImageSortedMessage:
     request_id: str

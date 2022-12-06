@@ -14,6 +14,7 @@ def fixture_dumper() -> Dumper:
     fixture.consumer = AsyncMock(name="consumer")
     return fixture
 
+
 class TestProcess:
     @pytest.mark.asyncio
     async def test_simple(self, dumper: Dumper) -> None:
@@ -25,6 +26,7 @@ class TestProcess:
         await dumper.process(model)
 
         dumper.dump_file.assert_called_once_with("white.png", "white", "679f6fa9-ced2-4ecd-9d18-664908ebd6f8")
+
 
 class TestGetColorName:
     def test_white(self, dumper: Dumper) -> None:
