@@ -12,6 +12,20 @@ services:
     networks:
       - network
 
+  feeder:
+    build: feeder
+    environment:
+      RABBITMQ_USERNAME: 'guest'
+      RABBITMQ_PASSWORD: 'guest'
+      RABBITMQ_HOSTNAME: 'rabbitmq'
+      IMAGESORT_DUMPER_FOLDER: '/usr/src/app/images'
+    networks:
+      - network
+    depends_on:
+      - rabbitmq
+    volumes:
+    - "./images:/usr/src/app/images"
+
   sorter:
     build: sorter
     environment:
@@ -37,7 +51,6 @@ services:
       - network
     depends_on:
       - rabbitmq
-      - sorter
     volumes:
     - "./images:/usr/src/app/images"
 
