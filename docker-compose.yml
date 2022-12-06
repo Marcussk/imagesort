@@ -1,0 +1,58 @@
+version: '3'
+
+volumes:
+  image-data:
+
+services:
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - network
+
+  feeder:
+    build: feeder
+    environment:
+      RABBITMQ_USERNAME: 'guest'
+      RABBITMQ_PASSWORD: 'guest'
+      RABBITMQ_HOSTNAME: 'rabbitmq'
+      IMAGESORT_FOLDER: '/usr/src/app/images'
+    networks:
+      - network
+    depends_on:
+      - rabbitmq
+    volumes:
+    - "./images:/usr/src/app/images"
+
+  sorter:
+    build: sorter
+    environment:
+      RABBITMQ_USERNAME: 'guest'
+      RABBITMQ_PASSWORD: 'guest'
+      RABBITMQ_HOSTNAME: 'rabbitmq'
+      IMAGESORT_FOLDER: '/usr/src/app/images'
+    networks:
+      - network
+    depends_on:
+      - rabbitmq
+    volumes:
+    - "./images:/usr/src/app/images"
+
+  dumper:
+    build: dumper
+    environment:
+      RABBITMQ_USERNAME: 'guest'
+      RABBITMQ_PASSWORD: 'guest'
+      RABBITMQ_HOSTNAME: 'rabbitmq'
+      IMAGESORT_FOLDER: '/usr/src/app/images'
+    networks:
+      - network
+    depends_on:
+      - rabbitmq
+    volumes:
+    - "./images:/usr/src/app/images"
+
+networks:
+  network: {}
