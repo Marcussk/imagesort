@@ -21,4 +21,4 @@ COPY --from=builder /build/src/sender.py .
 
 WORKDIR /usr/src/app
 
-CMD ["python", "-m", "dumper"]
+CMD ["python", "-m", "feeder"]

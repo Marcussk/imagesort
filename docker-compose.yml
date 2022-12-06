@@ -18,7 +18,7 @@ services:
       RABBITMQ_USERNAME: 'guest'
       RABBITMQ_PASSWORD: 'guest'
       RABBITMQ_HOSTNAME: 'rabbitmq'
-      IMAGESORT_DUMPER_FOLDER: '/usr/src/app/images'
+      IMAGESORT_FOLDER: '/usr/src/app/images'
     networks:
       - network
     depends_on:
@@ -32,7 +32,7 @@ services:
       RABBITMQ_USERNAME: 'guest'
       RABBITMQ_PASSWORD: 'guest'
       RABBITMQ_HOSTNAME: 'rabbitmq'
-      IMAGESORT_DUMPER_FOLDER: '/usr/src/app/images'
+      IMAGESORT_FOLDER: '/usr/src/app/images'
     networks:
       - network
     depends_on:
@@ -46,7 +46,7 @@ services:
       RABBITMQ_USERNAME: 'guest'
       RABBITMQ_PASSWORD: 'guest'
       RABBITMQ_HOSTNAME: 'rabbitmq'
-      IMAGESORT_DUMPER_FOLDER: '/usr/src/app/images'
+      IMAGESORT_FOLDER: '/usr/src/app/images'
     networks:
       - network
     depends_on:
