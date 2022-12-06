@@ -1,6 +1,6 @@
 # Sorter
 
-Module that parses `ImageInputMessage`s from `imagesort.input` queue for requests to sort images. Input image is loaded and its mean color is calculated. Information about image is propagated to dumper by sending `ImageSortedMessage` to `imagesort.dump` queue.
+Module that parses `ImageInputMessage`s from `imagesort.input` queue for requests to sort images and calculates `mean_color` that gets passed to dumper. 
 
 ## Development
 
