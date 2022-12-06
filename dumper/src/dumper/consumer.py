@@ -1,4 +1,5 @@
 import json
+import logging
 from asyncio import Future
 from typing import Any, Awaitable, Callable
 
@@ -16,12 +17,14 @@ class ImageSortedConsumer:
         self.message_handler: SortedMessageHandler = message_handler
         self.connection_string: str = f"amqp://{config['username']}:{config['password']}@{config['hostname']}"
         self.connection: AbstractConnection | None = None
+        self.logger = logging.getLogger()
 
     async def start(self) -> None:
-        print("Connecting to: ", self.connection_string)
+        self.logger.info("Starting ImageSortedConsumer")
         self.connection = await connect_robust(self.connection_string, timeout=60)
 
     async def consume(self) -> None:
+        self.logger.info("Consuming ImageSortedMessage")
         assert self.connection
         async with self.connection:
             channel = await self.connection.channel()
@@ -35,9 +38,8 @@ class ImageSortedConsumer:
         """
         try:
             message_json = json.loads(message.body.decode("utf-8"))
-            print(message_json)
             model = ImageSortedMessage.from_json(message_json)
+            self.logger.debug("Parsed ImageSortedMessage %s", model.request_id)
             await self.message_handler(model)
-        except ImageSortedParsingError as exception:
-            print(exception)
-            print(f"Could not parse message: {message} {message.body.decode('utf-8')}")
+        except ImageSortedParsingError:
+            self.logger.exception("Could not parse message: %s", message)

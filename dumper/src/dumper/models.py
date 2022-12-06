@@ -1,6 +1,8 @@
+import logging
 from dataclasses import dataclass
 from typing import Any
 
+logger = logging.getLogger()
 
 class ImageSortedParsingError(Exception):
     pass
@@ -18,11 +20,10 @@ class ImageSortedMessage:
             request_id: str = deserialized_message["request_id"]
             mean_color: str = deserialized_message["mean_color"]
             file_path: str = deserialized_message["file_path"]
-        except KeyError as exc:
-            raise ImageSortedParsingError("Malformed message received") from exc
-        tmp = ImageSortedMessage(request_id, mean_color, file_path)
-        print(tmp)
-        return tmp
+        except KeyError as exception:
+            logger.exception("Missing field in message")
+            raise ImageSortedParsingError("Malformed message received") from exception
+        return ImageSortedMessage(request_id, mean_color, file_path)
 
     """
     def __post_init__(self) -> None:

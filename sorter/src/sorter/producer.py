@@ -1,4 +1,5 @@
 import json
+import logging
 from dataclasses import asdict
 from typing import Any
 
@@ -12,14 +13,15 @@ class ImageSortedProducer:
     def __init__(self, config: dict[str, Any]) -> None:
         self.queue_name: str = config["queue_name"]
         self.connection_string: str = f"amqp://{config['username']}:{config['password']}@{config['hostname']}/"
-        print(self.connection_string)
         self.connection: AbstractConnection | None = None
+        self.logger = logging.getLogger()
 
     async def start(self) -> None:
-        print("Connecting to: ", self.connection_string)
+        self.logger.info("Starting ImageSortedProducer")
         #self.connection = await connect_robust(self.connection_string, timeout=60)
 
     async def send(self, message: ImageSortedMessage) -> None:
+        self.logger.debug("Sending message: %s", message.request_id)
         self.connection = await connect_robust(self.connection_string, timeout=60)
         assert self.connection
         async with self.connection:
@@ -30,4 +32,3 @@ class ImageSortedProducer:
                 Message(message_body),
                 routing_key=queue.name,
             )
-            print(message_body)

@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -15,27 +16,29 @@ class Sorter:
         self.consumer: ImageInputConsumer | None = None
         self.producer: ImageSortedProducer | None = None
         self.dump_folder = Path(config["dump_folder"])
+        logging.basicConfig(level=config["log_level"])
+        self.logger = logging.getLogger()
 
     async def start(self) -> None:
+        self.logger.info("Starting sorter")
         self.consumer = ImageInputConsumer(self.config["consumer"], self.process_image)
         self.producer = ImageSortedProducer(self.config["producer"])
         await self.consumer.start()
         await self.producer.start()
 
     async def run(self) -> None:
+        self.logger.info("Running sorter")
         assert self.consumer
         await self.consumer.consume()
 
     async def process_image(self, input_message: ImageInputMessage) -> None:
         assert self.producer
-        print(f"Processing {input_message.request_id}")
+        self.logger.info("Processing %s", input_message.request_id)
 
         image_path = self.dump_folder / input_message.file_path
         mean_color: str = self.get_mean_color(str(image_path))
 
-        print(f"Sending to dump {input_message.request_id}")
         await self.producer.send(ImageSortedMessage(input_message.request_id, mean_color, input_message.file_path))
-        print(f"Finished processing {input_message.request_id}")
 
     def get_mean_color(self, file_path: str) -> str:
         # pylint: disable=no-member

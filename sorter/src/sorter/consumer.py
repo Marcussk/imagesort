@@ -1,4 +1,5 @@
 import json
+import logging
 from asyncio import Future
 from typing import Any, Awaitable, Callable
 
@@ -15,14 +16,15 @@ class ImageInputConsumer:
         self.queue_name: str = config["queue_name"]
         self.message_handler: InputMessageHandler = message_handler
         self.connection_string: str = f"amqp://{config['username']}:{config['password']}@{config['hostname']}/"
-        print(self.connection_string)
         self.connection: AbstractConnection | None = None
+        self.logger = logging.getLogger()
 
     async def start(self) -> None:
-        print("Connecting to: ", self.connection_string)
+        self.logger.info("Starting ImageInputConsumer")
         self.connection = await connect_robust(self.connection_string, timeout=60)
 
     async def consume(self) -> None:
+        self.logger.info("Consuming ImageInputMessage")
         assert self.connection
         async with self.connection:
             channel = await self.connection.channel()
@@ -34,8 +36,10 @@ class ImageInputConsumer:
         """
         Parses incoming message into model and passes it to handler for processing.
         """
+        self.logger.debug("Processing message")
         try:
             model = ImageInputMessage.from_json(json.loads(message.body.decode("utf-8")))
+            self.logger.debug("Parsed message: %s", model.request_id)
             await self.message_handler(model)
         except ImageInputParsingError:
-            print(f"Could not parse message: {message}")
+            self.logger.exception("Exception when parsing message: %s", message)
