@@ -36,8 +36,8 @@ class Dumper:
         self.logger.info("Dumper processing %s", message.request_id)
         self.logger.debug("Message received: %s", message)
         color_name = self.get_color_name(message.mean_color)
-        self.logger.info("Final color name: %s", color_name)
-        self.dump_file(message.file_path, color_name)
+        self.logger.info("Request %s final color name: %s", message.request_id, color_name)
+        self.dump_file(message.file_path, color_name, message.request_id)
 
     def get_color_name(self, hex_color: str) -> str:
         """
@@ -52,7 +52,7 @@ class Dumper:
             color_name = hex_color.lstrip("#")
         return color_name
 
-    def dump_file(self, original_file_path: str, color_name: str) -> None:
+    def dump_file(self, original_file_path: str, color_name: str, request_id: str) -> None:
         """
         Moves file into correct folder according to its sorting.
 
@@ -61,10 +61,17 @@ class Dumper:
         target_folder = self.dump_folder / color_name
         target_folder.mkdir(parents=True, exist_ok=True)
 
-        target_file_path = target_folder / original_file_path
+        
         image_file_path = self.dump_folder / original_file_path
+        if not image_file_path.exists():
+            self.logger.error("Cannot load image at: %s from request %s, file does not exist", image_file_path, request_id)
+            return
+    
+        target_file_path = target_folder / original_file_path 
         self.logger.debug("Moving sorted image to: %s", target_file_path)
         try:
             image_file_path.rename(target_file_path)
+            self.logger.info("Moved file to %s for request %s", target_file_path, request_id)
         except FileExistsError:
             self.logger.error("File already exists, cannot sort")
+        self.logger.info("Finished processing of request %s", request_id)

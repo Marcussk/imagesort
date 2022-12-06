@@ -37,9 +37,14 @@ class Sorter:
         self.logger.info("Processing %s", input_message.request_id)
 
         image_path = self.dump_folder / input_message.file_path
+        if not image_path.exists():
+            self.logger.error("Cannot load image at: %s from request %s, file does not exist", image_path, input_message.request_id)
+            return 
         mean_color: str = self.get_mean_color(str(image_path))
+        self.logger.info("Request %s mean color: %s", input_message.request_id, mean_color)
 
         await self.producer.send(ImageSortedMessage(input_message.request_id, mean_color, input_message.file_path))
+        self.logger.info("Passed processing of request %s", input_message.request_id)
 
     def get_mean_color(self, file_path: str) -> str:
         # pylint: disable=no-member
