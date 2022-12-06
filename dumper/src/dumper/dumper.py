@@ -21,6 +21,8 @@ class Dumper:
         self.consumer: ImageSortedConsumer | None = None
         logging.basicConfig(level=config["log_level"])
         self.logger = logging.getLogger()
+        self.logger.info("Dumper initialized for folder %s", self.dump_folder)
+
 
     async def start(self) -> None:
         self.logger.info("Starting Dumper")

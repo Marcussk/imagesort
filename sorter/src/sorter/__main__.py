@@ -9,7 +9,7 @@ async def run() -> None:
     try:
         sorter = Sorter(config)
         print("Waiting on dependancies")
-        time.sleep(1)
+        time.sleep(10)
         await sorter.start()
         await sorter.run()
     except KeyboardInterrupt:

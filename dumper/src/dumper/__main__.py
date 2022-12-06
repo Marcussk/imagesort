@@ -9,7 +9,7 @@ async def run() -> None:
     try:
         dumper = Dumper(config)
         print("Waiting on dependancies")
-        time.sleep(1)
+        time.sleep(10)
         await dumper.start()
         await dumper.run()
     except KeyboardInterrupt:

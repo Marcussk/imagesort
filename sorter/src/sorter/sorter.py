@@ -19,6 +19,7 @@ class Sorter:
         self.dump_folder.mkdir(parents=True, exist_ok=True)
         logging.basicConfig(level=config["log_level"])
         self.logger = logging.getLogger()
+        self.logger.info("Sorter initialized for folder %s", self.dump_folder)
 
     async def start(self) -> None:
         self.logger.info("Starting sorter")
@@ -44,7 +45,7 @@ class Sorter:
         self.logger.info("Request %s mean color: %s", input_message.request_id, mean_color)
 
         await self.producer.send(ImageSortedMessage(input_message.request_id, mean_color, input_message.file_path))
-        self.logger.info("Passed processing of request %s", input_message.request_id)
+        self.logger.info("Passed processing of request %s to dumper", input_message.request_id)
 
     def get_mean_color(self, file_path: str) -> str:
         # pylint: disable=no-member
