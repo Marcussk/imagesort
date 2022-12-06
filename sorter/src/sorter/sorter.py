@@ -25,8 +25,6 @@ class Sorter:
         self.logger.info("Starting sorter")
         self.consumer = ImageInputConsumer(self.config["consumer"], self.process_image)
         self.producer = ImageSortedProducer(self.config["producer"])
-        await self.consumer.start()
-        await self.producer.start()
 
     async def run(self) -> None:
         self.logger.info("Running sorter")

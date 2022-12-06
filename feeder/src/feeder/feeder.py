@@ -20,7 +20,6 @@ class Feeder:
     async def start(self) -> None:
         self.logger.info("Starting Feeder")
         self.producer = ImageInputProducer(self.config["producer"])
-        await self.producer.start()
 
     async def stop(self) -> None:
         if self.producer:

@@ -26,7 +26,6 @@ class Dumper:
     async def start(self) -> None:
         self.logger.info("Starting Dumper")
         self.consumer = ImageSortedConsumer(self.config["consumer"], self.process)
-        await self.consumer.start()
 
     async def run(self) -> None:
         self.logger.info("Running Dumper")

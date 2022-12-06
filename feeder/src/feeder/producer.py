@@ -18,17 +18,13 @@ class ImageInputProducer:
         self.connection: AbstractConnection | None = None
         self.logger = logging.getLogger()
 
-    async def start(self) -> None:
-        self.logger.info("Starting ImageInputProducer")
-        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
-
     async def stop(self) -> None:
         if self.connection:
             await self.connection.close()
 
     async def send(self, message: ImageInputMessage) -> None:
         self.logger.debug("Sending message: %s", message.request_id)
-        assert self.connection
+        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
         async with self.connection:
             channel = await self.connection.channel()
             queue = await channel.declare_queue(self.queue_name)

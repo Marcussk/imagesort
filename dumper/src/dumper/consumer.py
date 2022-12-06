@@ -21,17 +21,13 @@ class ImageSortedConsumer:
         self.connection: AbstractConnection | None = None
         self.logger = logging.getLogger()
 
-    async def start(self) -> None:
-        self.logger.info("Starting ImageSortedConsumer")
-        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
-
     async def stop(self) -> None:
         if self.connection:
             await self.connection.close()
 
     async def consume(self) -> None:
         self.logger.info("Consuming ImageSortedMessage")
-        assert self.connection
+        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
         async with self.connection:
             channel = await self.connection.channel()
             queue = await channel.declare_queue(self.queue_name)
