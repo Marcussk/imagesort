@@ -10,6 +10,7 @@ from .models import ImageSortedMessage, ImageSortedParsingError
 
 SortedMessageHandler = Callable[[ImageSortedMessage], Awaitable[None]]
 
+RABBITMQ_CONNECTION_TIMEOUT = 60
 
 class ImageSortedConsumer:
     def __init__(self, config: dict[str, Any], message_handler: SortedMessageHandler) -> None:
@@ -21,7 +22,7 @@ class ImageSortedConsumer:
 
     async def start(self) -> None:
         self.logger.info("Starting ImageSortedConsumer")
-        self.connection = await connect_robust(self.connection_string, timeout=60)
+        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
 
     async def consume(self) -> None:
         self.logger.info("Consuming ImageSortedMessage")

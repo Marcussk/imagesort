@@ -10,6 +10,7 @@ from .models import ImageInputMessage, ImageInputParsingError
 
 InputMessageHandler = Callable[[ImageInputMessage], Awaitable[None]]
 
+RABBITMQ_CONNECTION_TIMEOUT = 60
 
 class ImageInputConsumer:
     def __init__(self, config: dict[str, Any], message_handler: InputMessageHandler) -> None:
@@ -21,7 +22,7 @@ class ImageInputConsumer:
 
     async def start(self) -> None:
         self.logger.info("Starting ImageInputConsumer")
-        self.connection = await connect_robust(self.connection_string, timeout=60)
+        self.connection = await connect_robust(self.connection_string, timeout=RABBITMQ_CONNECTION_TIMEOUT)
 
     async def consume(self) -> None:
         self.logger.info("Consuming ImageInputMessage")
