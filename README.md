@@ -5,7 +5,6 @@ Application for sorting images on file system according to their mean color.
 - `feeder` periodically accesses project folder and propagates files to system
 - `sorter` calculates mean color for sorting
 - `dumper` moves images to correct folder
-- `extras\imagesort_sender.py` sends sorting request
 
 ## Usage
 
