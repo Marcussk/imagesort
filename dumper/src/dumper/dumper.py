@@ -23,7 +23,6 @@ class Dumper:
         self.logger = logging.getLogger()
         self.logger.info("Dumper initialized for folder %s", self.dump_folder)
 
-
     async def start(self) -> None:
         self.logger.info("Starting Dumper")
         self.consumer = ImageSortedConsumer(self.config["consumer"], self.process)
@@ -63,13 +62,14 @@ class Dumper:
         target_folder = self.dump_folder / color_name
         target_folder.mkdir(parents=True, exist_ok=True)
 
-        
         image_file_path = self.dump_folder / original_file_path
         if not image_file_path.exists():
-            self.logger.error("Cannot load image at: %s from request %s, file does not exist", image_file_path, request_id)
+            self.logger.error(
+                "Cannot load image at: %s from request %s, file does not exist", image_file_path, request_id
+            )
             return
-    
-        target_file_path = target_folder / original_file_path 
+
+        target_file_path = target_folder / original_file_path
         self.logger.debug("Moving sorted image to: %s", target_file_path)
         try:
             image_file_path.rename(target_file_path)

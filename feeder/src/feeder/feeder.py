@@ -1,10 +1,11 @@
-
-from typing import Any
-from .producer import ImageInputProducer
-from .models import ImageInputMessage
-from pathlib import Path
-import logging
 import asyncio
+import logging
+from pathlib import Path
+from typing import Any
+
+from .models import ImageInputMessage
+from .producer import ImageInputProducer
+
 
 class Feeder:
     def __init__(self, config: dict[str, Any]) -> None:

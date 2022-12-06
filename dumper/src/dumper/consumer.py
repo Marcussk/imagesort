@@ -12,6 +12,7 @@ SortedMessageHandler = Callable[[ImageSortedMessage], Awaitable[None]]
 
 RABBITMQ_CONNECTION_TIMEOUT = 60
 
+
 class ImageSortedConsumer:
     def __init__(self, config: dict[str, Any], message_handler: SortedMessageHandler) -> None:
         self.queue_name: str = config["queue_name"]

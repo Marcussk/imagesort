@@ -9,5 +9,5 @@ config = {
     },
     "dump_folder": os.environ["IMAGESORT_FOLDER"],
     "log_level": os.environ.get("IMAGESORT_FEEDER_LOG_LEVEL", "INFO"),
-    "backoff_time": os.environ.get("IMAGESORT_FEEDER_BACKOFF", 10)
+    "backoff_time": os.environ.get("IMAGESORT_FEEDER_BACKOFF", 10),
 }
